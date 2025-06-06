@@ -1,0 +1,147 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>COINSPOT 복리 계산기</title>
+  <style>
+    body {
+      font-family: 'Noto Sans KR', sans-serif;
+      background: linear-gradient(to right, #f5f7fa, #c3cfe2);
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 760px;
+      margin: 60px auto;
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 40px;
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
+    }
+    h1 {
+      font-size: 30px;
+      text-align: center;
+      color: #003366;
+      margin-bottom: 10px;
+    }
+    .subhead {
+      text-align: center;
+      color: #555;
+      font-size: 16px;
+      margin-bottom: 30px;
+    }
+    label {
+      font-weight: 600;
+      display: block;
+      margin-top: 20px;
+      font-size: 15px;
+    }
+    input {
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      background-color: #f9f9f9;
+    }
+    button {
+      margin-top: 30px;
+      width: 100%;
+      padding: 15px;
+      background-color: #1a73e8;
+      color: white;
+      font-size: 17px;
+      font-weight: bold;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: #0f5cd1;
+    }
+    .total {
+      text-align: center;
+      margin-top: 35px;
+      font-weight: bold;
+      font-size: 20px;
+      color: #222;
+    }
+    table {
+      margin-top: 30px;
+      width: 100%;
+      border-collapse: collapse;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    th, td {
+      border: 1px solid #e5e7eb;
+      padding: 14px 10px;
+      text-align: center;
+      font-size: 15px;
+    }
+    th {
+      background-color: #edf2f7;
+      color: #333;
+    }
+    tr:nth-child(even) {
+      background-color: #f9fbfc;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>COINSPOT 복리 계산기</h1>
+    <div class="subhead">💡 수익률과 반복 횟수로 당신의 자산이 어떻게 커지는지 확인해보세요</div>
+
+    <label>초기 투자금 (₩)</label>
+    <input type="number" id="initial" placeholder="예: 1,000,000" />
+
+    <label>1회 수익률 (%)</label>
+    <input type="number" id="rate" placeholder="예: 20" />
+
+    <label>반복 횟수 (회)</label>
+    <input type="number" id="times" placeholder="예: 20" />
+
+    <button onclick="calculateCompound()">📊 계산하기</button>
+
+    <div class="total" id="compoundResult"></div>
+
+    <table id="resultTable" style="display:none;">
+      <thead>
+        <tr><th>회차</th><th>금액 (₩)</th><th>누적 수익률 (%)</th></tr>
+      </thead>
+      <tbody id="tableBody"></tbody>
+    </table>
+  </div>
+
+  <script>
+    function calculateCompound() {
+      const initial = parseFloat(document.getElementById('initial').value);
+      const rate = parseFloat(document.getElementById('rate').value) / 100;
+      const times = parseInt(document.getElementById('times').value);
+      if (isNaN(initial) || isNaN(rate) || isNaN(times)) {
+        document.getElementById('compoundResult').innerText = '모든 값을 입력해주세요.';
+        return;
+      }
+
+      let current = initial;
+      let tableHTML = '';
+      for (let i = 1; i <= times; i++) {
+        current *= (1 + rate);
+        const percent = ((current - initial) / initial * 100).toFixed(2);
+        tableHTML += `<tr><td>${i}</td><td>₩${current.toLocaleString(undefined, {maximumFractionDigits: 0})}</td><td>${percent}%</td></tr>`;
+      }
+
+      const totalProfit = current - initial;
+      document.getElementById('compoundResult').innerText =
+        `💰 최종 금액: ₩${current.toLocaleString(undefined, {maximumFractionDigits: 0})}  (총 수익: ₩${totalProfit.toLocaleString(undefined, {maximumFractionDigits: 0})})`;
+
+      document.getElementById('resultTable').style.display = '';
+      document.getElementById('tableBody').innerHTML = tableHTML;
+    }
+  </script>
+</body>
+</html>
