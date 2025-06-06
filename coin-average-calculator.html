@@ -1,0 +1,62 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>코인 물타기 & 불타기 계산기</title>
+  <style>
+    body { font-family: sans-serif; padding: 20px; max-width: 500px; margin: auto; color: #333; }
+    h1, h2 { margin-top: 30px; }
+    label { display: block; margin-top: 10px; }
+    input { width: 100%; padding: 8px; margin-top: 5px; border: 1px solid #ccc; border-radius: 4px; }
+    button { margin-top: 15px; padding: 10px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; }
+    .result { margin-top: 15px; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <h1>💧 물타기 계산기</h1>
+  <label>기존 매수가 (₩)<input type="number" id="oldPrice"></label>
+  <label>기존 수량<input type="number" id="oldQty"></label>
+  <label>추가 매수가 (₩)<input type="number" id="newPrice"></label>
+  <label>추가 수량<input type="number" id="newQty"></label>
+  <button onclick="calcDown()">계산하기</button>
+  <div class="result" id="downResult"></div>
+
+  <h2>🔥 불타기 계산기</h2>
+  <label>기존 매수가 (₩)<input type="number" id="oldPriceUp"></label>
+  <label>기존 수량<input type="number" id="oldQtyUp"></label>
+  <label>추가 매수가 (₩)<input type="number" id="newPriceUp"></label>
+  <label>추가 수량<input type="number" id="newQtyUp"></label>
+  <button onclick="calcUp()">계산하기</button>
+  <div class="result" id="upResult"></div>
+
+  <script>
+    function calcDown() {
+      const o = parseFloat(document.getElementById('oldPrice').value);
+      const oq = parseFloat(document.getElementById('oldQty').value);
+      const n = parseFloat(document.getElementById('newPrice').value);
+      const nq = parseFloat(document.getElementById('newQty').value);
+      if (isNaN(o) || isNaN(oq) || isNaN(n) || isNaN(nq)) {
+        document.getElementById('downResult').innerText = '모든 값을 입력하세요.';
+        return;
+      }
+      const avg = (o * oq + n * nq) / (oq + nq);
+      document.getElementById('downResult').innerText = `평균 단가: ₩${avg.toLocaleString()} / 총 수량: ${oq + nq}`;
+    }
+
+    function calcUp() {
+      const o = parseFloat(document.getElementById('oldPriceUp').value);
+      const oq = parseFloat(document.getElementById('oldQtyUp').value);
+      const n = parseFloat(document.getElementById('newPriceUp').value);
+      const nq = parseFloat(document.getElementById('newQtyUp').value);
+      if (isNaN(o) || isNaN(oq) || isNaN(n) || isNaN(nq)) {
+        document.getElementById('upResult').innerText = '모든 값을 입력하세요.';
+        return;
+      }
+      const avg = (o * oq + n * nq) / (oq + nq);
+      document.getElementById('upResult').innerText = `평균 단가: ₩${avg.toLocaleString()} / 총 수량: ${oq + nq}`;
+    }
+  </script>
+</body>
+</html>
