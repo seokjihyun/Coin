@@ -1,0 +1,41 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>코인 복리 계산기</title>
+  <style>
+    body { font-family: sans-serif; padding: 20px; max-width: 500px; margin: auto; color: #333; }
+    h1 { margin-bottom: 20px; }
+    label { display: block; margin-top: 10px; }
+    input { width: 100%; padding: 8px; margin-top: 5px; border: 1px solid #ccc; border-radius: 4px; }
+    button { margin-top: 15px; padding: 10px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; }
+    .result { margin-top: 15px; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <h1>📈 코인 복리 수익 계산기</h1>
+  <label>초기 투자금 (₩)<input type="number" id="initial"></label>
+  <label>1회 수익률 (%)<input type="number" id="rate"></label>
+  <label>반복 횟수 (회)<input type="number" id="times"></label>
+  <button onclick="calculateCompound()">계산하기</button>
+  <div class="result" id="compoundResult"></div>
+
+  <script>
+    function calculateCompound() {
+      const initial = parseFloat(document.getElementById('initial').value);
+      const rate = parseFloat(document.getElementById('rate').value) / 100;
+      const times = parseInt(document.getElementById('times').value);
+      if (isNaN(initial) || isNaN(rate) || isNaN(times)) {
+        document.getElementById('compoundResult').innerText = '모든 값을 입력하세요.';
+        return;
+      }
+      const finalAmount = initial * Math.pow(1 + rate, times);
+      const profit = finalAmount - initial;
+      document.getElementById('compoundResult').innerText =
+        `최종 금액: ₩${finalAmount.toLocaleString()} (총 수익: ₩${profit.toLocaleString()})`;
+    }
+  </script>
+</body>
+</html>
